@@ -3,10 +3,12 @@
 import { useSession } from 'next-auth/react';
 import AppHeader from '../components/AppHeader';
 import LogoutButton from '../components/LogoutButton';
+import Navbar from '../components/Navbar';
 import Link from 'next/link';
 
 export default function HomePage() {
   const { data: session, status } = useSession();
+  console.log('Session Data:', session); 
 
   // Tampilkan pesan loading saat sesi sedang dimuat
   if (status === 'loading') {
@@ -45,6 +47,7 @@ export default function HomePage() {
         {/* Tampilkan informasi pengguna jika ada sesi */}
         {session?.user && (
           <div className="bg-white p-8 rounded-lg shadow-lg max-w-2xl mx-auto text-center">
+            <Navbar currentRole={(session.user as any).roleName} />
             <h2 className="text-2xl font-semibold text-gray-800 mb-4">Informasi Pengguna:</h2>
             <p className="text-lg text-gray-700 mb-2">
               Nama: **{session.user.name}**

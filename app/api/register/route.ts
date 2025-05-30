@@ -13,7 +13,7 @@ export async function POST(req: Request) {
 
     // Cek apakah username sudah ada
     const existingUser = await prisma.user.findUnique({
-      where: { username: username },
+      where: { Username: username },
     });
 
     if (existingUser) {
@@ -22,7 +22,7 @@ export async function POST(req: Request) {
 
     // Cek apakah email sudah ada
     const existingEmail = await prisma.user.findUnique({
-      where: { email: email },
+      where: { Email: email },
     });
     if (existingEmail) {
       return NextResponse.json({ message: 'Email already exists.' }, { status: 409 });
@@ -43,15 +43,15 @@ export async function POST(req: Request) {
     // Buat user baru
     const newUser = await prisma.user.create({
       data: {
-        username: username,
-        email: email, // <--- Hapus `|| null` karena email sekarang wajib
-        password: hashedPassword,
-        URoleID: role.RoleID,
+        Username: username,
+        Email: email,
+        Password: hashedPassword,
+        RoleID: role.RoleID,
       },
     });
 
     // Jangan kembalikan password yang di-hash ke client
-    const { password: userPassword, ...rest } = newUser;
+    const { Password: userPassword, ...rest } = newUser;
 
     return NextResponse.json({ message: 'User registered successfully!', user: rest }, { status: 201 });
 
