@@ -27,6 +27,7 @@ export default function SignInPage() {
       // Tangani error dari NextAuth.js
       setError(result.error);
     } else if (result?.ok) {
+    
       router.push('/'); // Redirect ke halaman utama setelah login berhasil
     }
   };

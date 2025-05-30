@@ -1,13 +1,11 @@
-// app/page.tsx
-'use client'; // <-- Penting: Ini adalah komponen klien karena menggunakan hook klien seperti useSession
+'use client';
 
-import { useSession } from 'next-auth/react'; // <-- Import useSession dari NextAuth.js
-import AppHeader from '../components/AppHeader'; // <-- Import AppHeader Anda
-import LogoutButton from '../components/LogoutButton'; // <-- Import LogoutButton Anda
-import Link from 'next/link'; // <-- Import Link untuk navigasi
+import { useSession } from 'next-auth/react';
+import AppHeader from '../components/AppHeader';
+import LogoutButton from '../components/LogoutButton';
+import Link from 'next/link';
 
 export default function HomePage() {
-  // Gunakan useSession untuk mendapatkan data sesi dan status autentikasi
   const { data: session, status } = useSession();
 
   // Tampilkan pesan loading saat sesi sedang dimuat

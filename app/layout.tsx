@@ -1,13 +1,12 @@
-// app/layout.tsx
-import './globals.css'; // Global CSS Anda
+import './globals.css';
 import { Inter } from 'next/font/google';
-import { AuthProvider } from './providers'; // Import AuthProvider Anda
+import { AuthProvider } from "./providers";
 
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata = {
-  title: 'Aplikasi Next.js',
-  description: 'Aplikasi dengan autentikasi NextAuth.js',
+  title: 'Healthify',
+  description: 'Technoscape Hackathon 2025',
 };
 
 export default function RootLayout({
@@ -18,9 +17,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        {/* AuthProvider harus melingkupi semua children agar useSession bekerja */}
         <AuthProvider>
-          {children} {/* Konten halaman Anda (termasuk app/page.tsx) akan dirender di sini */}
+          {children}
         </AuthProvider>
       </body>
     </html>
