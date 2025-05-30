@@ -34,11 +34,11 @@ export const authOptions: NextAuthOptions = {
             const user = await prisma.user.findFirst({
                 where: {
                     OR: [
-                        { username: credentials.identifier },
-                        { email: credentials.identifier },
+                        { Username: credentials.identifier },
+                        { Email: credentials.identifier },
                     ],
                 },
-                include: { role: true }, // Sertakan role untuk mendapatkan RoleName
+                include: { Role: true }, // Sertakan role untuk mendapatkan RoleName
             });
 
             // 2. Jika user tidak ditemukan
@@ -47,19 +47,19 @@ export const authOptions: NextAuthOptions = {
             }
 
             // 3. Pastikan password dari DB ada dan berformat string yang valid
-            if (typeof user.password !== 'string' || user.password.length === 0) {
+            if (typeof user.Password !== 'string' || user.Password.length === 0) {
                 return null;
             }
 
             // 4. Bandingkan password yang diinput dengan password yang di-hash di database
-            const isValidPassword = await bcrypt.compare(credentials.password, user.password);
+            const isValidPassword = await bcrypt.compare(credentials.password, user.Password);
 
             if (isValidPassword) {
                 return {
                     id: user.UserID.toString(), // Pastikan UserID adalah string
-                    name: user.username || user.email, // Gunakan username atau email sebagai nama
-                    email: user.email,
-                    roleName: user.role?.RoleName, // Menyuntikkan roleName ke objek user
+                    name: user.Username || user.Email, // Gunakan username atau email sebagai nama
+                    email: user.Email,
+                    roleName: user.Role.RoleName, 
                 };
             } else {
                 return null; // Password tidak cocok

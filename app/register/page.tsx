@@ -87,9 +87,8 @@ export default function RegisterPage() {
               onChange={(e) => setRoleName(e.target.value)}
             >
               <option value="Hospital">Hospital</option>
-              <option value="Government">Government</option>
+              <option value="Governance">Governance</option>
               <option value="Insurance">Insurance</option>
-              <option value="User">User</option>
             </select>
           </div>
           {error && <p className="text-red-500 text-sm">{error}</p>}

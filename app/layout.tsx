@@ -1,12 +1,13 @@
+// app/layout.tsx
 import './globals.css';
 import { Inter } from 'next/font/google';
-import { AuthProvider } from "./providers";
+import { AuthProvider } from './providers'; // Pastikan ini benar
 
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata = {
-  title: 'Healthify',
-  description: 'Technoscape Hackathon 2025',
+  title: 'Aplikasi Next.js',
+  description: 'Aplikasi dengan autentikasi NextAuth.js',
 };
 
 export default function RootLayout({
@@ -17,7 +18,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <AuthProvider>
+        <AuthProvider> {/* Ini membungkus seluruh aplikasi Anda */}
           {children}
         </AuthProvider>
       </body>

@@ -16,16 +16,16 @@ datasource db {
 }
 model User {
   UserID   Int    @id @default(autoincrement())
-  Username String
-  Email    String
-  Password String
+  Username String @unique
+  Email    String @unique
+  Password String 
   RoleID   Int
   Role     Roles  @relation(fields: [RoleID], references: [RoleID])
 }
 
 model Roles {
   RoleID   Int    @id @default(autoincrement())
-  RoleName String
+  RoleName String @unique
   User     User[]
 }
 
