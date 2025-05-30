@@ -12,5 +12,23 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
-  directUrl = env("DIRECT_URL)
+  directUrl = env("DIRECT_URL")
+}
+
+model User {
+  UserID   Int      @id @default(autoincrement())
+  username String   @unique
+  email    String   @unique // <--- UBAH DI SINI! Hapus tanda '?'
+  password String
+  createAt DateTime @default(now())
+  URoleID  Int
+
+  role Roles @relation(fields: [URoleID], references: [RoleID])
+}
+
+model Roles {
+  RoleID   Int    @id @default(autoincrement())
+  RoleName String @unique
+
+  users User[]
 }
