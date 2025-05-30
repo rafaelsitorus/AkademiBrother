@@ -14,4 +14,155 @@ datasource db {
   url      = env("DATABASE_URL")
   directUrl = env("DIRECT_URL")
 }
+model User {
+  UserID   Int    @id @default(autoincrement())
+  Username String
+  Email    String
+  Password String
+  RoleID   Int
+  Role     Roles  @relation(fields: [RoleID], references: [RoleID])
+}
 
+model Roles {
+  RoleID   Int    @id @default(autoincrement())
+  RoleName String
+  User     User[]
+}
+
+model HealthcareFacility {
+  FacilityID          Int      @id @default(autoincrement())
+  FacilityName        String
+  FacilityDescription String
+  Quantity            Int
+  HospitalID          Int
+  Hospital            Hospital @relation(fields: [HospitalID], references: [HospitalID])
+
+  FacilityMutationOrderFrom FacilityMutationOrder[] @relation("FromFacility")
+  FacilityMutationOrderTo   FacilityMutationOrder[] @relation("ToFacility")
+}
+
+model Hospital {
+  HospitalID        Int                     @id @default(autoincrement())
+  HospitalName      String
+  FacilityNeedsScore Int
+  LocationID        Int
+  Location          Location               @relation(fields: [LocationID], references: [LocationID])
+
+  HealthcareFacilities HealthcareFacility[]
+  HealthcareProfessionalsCurrent  HealthcareProfessional[] @relation("Current")
+  HealthcareProfessionalsPermanent HealthcareProfessional[] @relation("Permanent")
+  MedicalHistories   MedicalHistory[]
+  FacilityMutationOrdersFrom FacilityMutationOrder[] @relation("FromHospital")
+  FacilityMutationOrdersTo   FacilityMutationOrder[] @relation("ToHospital")
+  ProfessionalMutationOrdersFrom ProfessionalMutationOrder[] @relation("FromProfHospital")
+  ProfessionalMutationOrdersTo   ProfessionalMutationOrder[] @relation("ToProfHospital")
+  BPJSClaims        BPJSClaim[]
+}
+
+model Location {
+  LocationID Int      @id @default(autoincrement())
+  ProvinceID Int
+  DistrictID Int
+  Province   Province @relation(fields: [ProvinceID], references: [ProvinceID])
+  District   District @relation(fields: [DistrictID], references: [DistrictID])
+  Hospitals  Hospital[]
+}
+
+model Province {
+  ProvinceID   Int       @id @default(autoincrement())
+  ProvinceName String
+  Locations    Location[]
+}
+
+model District {
+  DistrictID   Int       @id @default(autoincrement())
+  DistrictName String
+  Locations    Location[]
+}
+
+model HealthcareProfessional {
+  ProfID            Int      @id @default(autoincrement())
+  Name              String
+  DOB               DateTime
+  Gender            String
+  Address           String
+  ContactNumber     String
+  NIK               String
+  CurrentHospital   Int
+  PermanentHospital Int
+  SpecialtyID       Int
+  Specialty         Specialty @relation(fields: [SpecialtyID], references: [SpecialtyID])
+  MedicalHistories  MedicalHistory[]
+  BPJSClaims        BPJSClaim[]
+  CurrentHosp       Hospital @relation("Current", fields: [CurrentHospital], references: [HospitalID])
+  PermanentHosp     Hospital @relation("Permanent", fields: [PermanentHospital], references: [HospitalID])
+  ProfOrders        ProfessionalMutationOrder[]
+}
+
+model Specialty {
+  SpecialtyID Int      @id @default(autoincrement())
+  Name        String
+  Description String
+  Professionals HealthcareProfessional[]
+}
+
+model MedicalHistory {
+  MedicalID  Int                   @id @default(autoincrement())
+  IssueDate  DateTime
+  PatientID  Int
+  ProfID     Int
+  HospitalID Int
+  Patient    Patient              @relation(fields: [PatientID], references: [PatientID])
+  Professional HealthcareProfessional @relation(fields: [ProfID], references: [ProfID])
+  Hospital   Hospital             @relation(fields: [HospitalID], references: [HospitalID])
+}
+
+model BPJSClaim {
+  ClaimID       Int      @id @default(autoincrement())
+  ClaimAmount   Float
+  ProcedureCode String
+  PatientID     Int
+  ProfID        Int
+  HospitalID    Int 
+  Patient       Patient              @relation(fields: [PatientID], references: [PatientID])
+  Professional  HealthcareProfessional @relation(fields: [ProfID], references: [ProfID])
+  Hospital      Hospital @relation(fields: [HospitalID], references: [HospitalID])
+}
+
+model Patient {
+  PatientID     Int            @id @default(autoincrement())
+  Name          String
+  DOB           DateTime
+  Gender        String
+  Address       String
+  ContactNumber String
+  NIK           String
+  BPJSNumber    String
+  MedicalHistories MedicalHistory[]
+  BPJSClaims    BPJSClaim[]
+}
+
+model ProfessionalMutationOrder {
+  ProfOrderID   Int      @id @default(autoincrement())
+  IssueDate     DateTime
+  ProfID        Int
+  FromHospitalID Int
+  ToHospitalID   Int
+  Professional  HealthcareProfessional @relation(fields: [ProfID], references: [ProfID])
+  FromHospital  Hospital @relation("FromProfHospital", fields: [FromHospitalID], references: [HospitalID])
+  ToHospital    Hospital @relation("ToProfHospital", fields: [ToHospitalID], references: [HospitalID])
+}
+
+model FacilityMutationOrder {
+  FacilityOrderID Int      @id @default(autoincrement())
+  IssueDate       DateTime
+  FacilityID      Int
+  FromHospitalID  Int
+  ToHospitalID    Int
+
+  FromFacility    HealthcareFacility @relation("FromFacility", fields: [FacilityID], references: [FacilityID], map: "FromFacility_FK")
+  ToFacility      HealthcareFacility @relation("ToFacility", fields: [FacilityID], references: [FacilityID], map: "ToFacility_FK")
+
+  FromHospital    Hospital @relation("FromHospital", fields: [FromHospitalID], references: [HospitalID])
+  ToHospital      Hospital @relation("ToHospital", fields: [ToHospitalID], references: [HospitalID])
+}
