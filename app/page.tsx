@@ -10,8 +10,8 @@ export default function HomePage() {
 
   useEffect(() => {
     if (status === 'unauthenticated') {
-      // Redirect to sign in if not authenticated
-      router.push('/signin');
+      // Redirect to landing page if not authenticated
+      router.push('/landing');
     } else if (status === 'authenticated') {
       // Redirect based on role if authenticated
       const role = (session?.user as any)?.roleName;
