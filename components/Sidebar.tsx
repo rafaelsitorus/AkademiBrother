@@ -2,7 +2,7 @@
 
 "use client"
 
-import { Home, BarChart2, Settings, LifeBuoy } from "lucide-react"
+import { Home, BarChart2, Settings, LifeBuoy, Scroll } from "lucide-react"
 // import { useState } from "react" // Tidak diperlukan lagi
 import { cn } from "@/lib/utils"
 import Link from "next/link"
@@ -11,6 +11,7 @@ import Link from "next/link"
 const navItems = [
   { icon: Home, label: "Home", href: "/insurance" },
   { icon: BarChart2, label: "Analytics", href: "/insurance/fraud" },
+  { icon: Scroll, label: "Form", href: "/insurance/form" },
 ]
 
 export default function Sidebar() {

@@ -124,6 +124,7 @@ model BPJSClaim {
   PatientID     Int
   ProfID        Int
   HospitalID    Int 
+  ClaimStatus   String
   Patient       Patient              @relation(fields: [PatientID], references: [PatientID])
   Professional  HealthcareProfessional @relation(fields: [ProfID], references: [ProfID])
   Hospital      Hospital @relation(fields: [HospitalID], references: [HospitalID])
