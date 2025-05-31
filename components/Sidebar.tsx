@@ -50,20 +50,6 @@ export default function Sidebar() {
           </Link>
         ))}
       </div>
-      <div className="flex flex-col items-center space-y-6">
-        <button
-          className="p-3 rounded-lg hover:bg-white/10 transition-colors duration-200 ease-in-out"
-          aria-label="Settings"
-        >
-          <Settings className="h-7 w-7" />
-        </button>
-        <button
-          className="p-3 rounded-lg hover:bg-white/10 transition-colors duration-200 ease-in-out"
-          aria-label="Help"
-        >
-          <LifeBuoy className="h-7 w-7" />
-        </button>
-      </div>
     </aside>
   )
 }
