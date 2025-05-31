@@ -1,3 +1,5 @@
+'use client';
+
 import Sidebar from "@/components/Sidebar"
 import Header from "@/components/Header"
 import ClaimCard from "@/components/ClaimCard"
@@ -5,6 +7,7 @@ import FraudClaimsChart from "@/components/Fraud-claims-chart"
 import AnalyticsDonutChart from "@/components/Analytics-donut-chart"
 import FraudsTable from "@/components/Frauds-table"
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"
+import { useSession } from "next-auth/react"
 
 type Claim = {
   id: string;
@@ -21,12 +24,16 @@ const sampleClaims: Claim[] = [
   { id: "HC104", user: "User D", value: "$800", description: "Claim details D", status: "Flagged" },
 ]
 
+
 export default function AnalyticsDashboardPage() {
+
+const userSession = useSession();
+console.log("User Session:", userSession.data?.user || "No user session found");
   return (
     <div className="flex h-screen bg-[#E6F7F6] px-4 font-sans">
       <Sidebar />
       <div className="flex-1 flex flex-col overflow-hidden">
-        <Header />
+        <Header title=""/>
         <ScrollArea className="flex-1">
           <main className="p-6 md:p-8 space-y-6">
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">

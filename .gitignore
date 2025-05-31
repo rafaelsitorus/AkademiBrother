@@ -51,7 +51,7 @@ next-env.d.ts
 .env
 
 #setup
-packange.json
+package.json
 package-lock.json
 tsconfig.json
 tailwind.config.js
@@ -59,5 +59,6 @@ postcss.config.js
 postcss.config.mjs
 next.config.js
 eslint.config.mjs
+components.json
 
 /app/generated/prisma
