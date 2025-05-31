@@ -47,7 +47,7 @@ export default function HealthifyClaimsPage() {
             </div>
         <main className="flex-1 flex flex-col p-6 md:p-8 space-y-6 md:space-y-8 max-w-[900px] mx-auto w-full">
             {/* 🟩 Scrollable claim card container */}
-            <div className="h-[600px] overflow-y-auto pr-2">
+            <div className="h-[455px] overflow-y-auto pr-2">
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 {claimsData.map((claim) => (
                     <ClaimCard key={claim.id} claim={claim} />
