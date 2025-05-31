@@ -54,5 +54,6 @@ postcss.config.js
 postcss.config.mjs
 next.config.js
 eslint.config.mjs
+components.json
 
 /app/generated/prisma
