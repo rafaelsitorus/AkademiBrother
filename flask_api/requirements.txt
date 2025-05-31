@@ -1,0 +1,17 @@
+flask
+flask-cors
+joblib
+scikit-learn
+
+
+# # Create a virtual environment (recommended)
+# py -m venv venv
+
+# # Activate the virtual environment
+# # On Windows:
+# venv\Scripts\activate
+
+# # Install the required packages
+# pip install flask flask-cors joblib scikit-learn
+
+# py app.py

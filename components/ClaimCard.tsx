@@ -34,8 +34,6 @@ export default function ClaimCard({ claim }: ClaimCardProps) {
   return (
     <Card className="
         bg-white shadow-lg rounded-xl overflow-hidden transition-all hover:shadow-xl
-        w-[270px] /* CONTOH: Mengatur lebar card menjadi 300 piksel */
-        h-[130px]
     ">
       <CardHeader className="pb-3">
         <div className="flex justify-between items-start">

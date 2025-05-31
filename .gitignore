@@ -1,6 +1,11 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
+package.json
+package-lock.json
+postcss.config.js
+postcss.config.mjs
+tailwind.config.js
 /node_modulesq
 /node_modules/
 /.pnp
