@@ -56,7 +56,7 @@ export default function HealthifyClaimsPage() {
     <div className="flex h-screen bg-[#E6F7F6] font-sans px-20 ml-[-4rem]">
       <Sidebar />
       <div className="flex-1 flex flex-col overflow-hidden">
-        <Header title=""/>
+        <Header title="Healthify Claims"/>
         <div className="relative w-full max-w-2xl mx-auto">
           <Input
             type="search"

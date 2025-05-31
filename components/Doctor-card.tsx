@@ -1,37 +1,43 @@
-import { Card, CardContent } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { ChevronDown } from "lucide-react"
-import { cn } from "@/lib/utils"
+import { Card } from "@/components/ui/card";
 
 interface DoctorCardProps {
-  name: string
-  status: string
+  name: string;
+  score: number | null;
+  location?: string;
 }
 
-export default function DoctorCard({ name = "Doctor Name", status = "Flagged" }: DoctorCardProps) {
-  return (
-    <Card className="w-full shadow-md rounded-xl">
-      <CardContent className="p-6 flex items-center justify-between">
-        <h3 className="text-xl font-medium text-slate-700">{name}</h3>
-        <div className="flex items-center space-x-3">
-          {status === "Flagged" && (
-            <Badge variant="destructive" className="bg-red-500 text-white px-3 py-1 rounded-full text-sm">
-              {status}
-            </Badge>
-          )}
-          {status !== "Flagged" && (
-            <Badge
-              className={cn(
-                "px-3 py-1 rounded-full text-sm",
-                status === "Clear" ? "bg-green-100 text-green-700" : "bg-slate-100 text-slate-700",
-              )}
-            >
-              {status}
-            </Badge>
-          )}
-          <ChevronDown className="w-5 h-5 text-slate-500 cursor-pointer" />
-        </div>
-      </CardContent>
-    </Card>
-  )
+export default function DoctorCard({ name, score, location }: DoctorCardProps) {
+  // Determine risk level color based on score
+  const getScoreColor = (score: number | null) => {
+    if (score === null) return "bg-gray-200 text-gray-500";
+    if (score >= 70) return "bg-red-500 text-white";
+    if (score >= 30) return "bg-orange-500 text-white";
+    return "bg-green-500 text-white";
+  };
+
+  // In your Doctor-card.tsx file
+return (
+  <Card className="p-3 bg-white border border-gray-200 shadow-sm rounded-lg">
+    <div className="flex justify-between items-center">
+      <div className="truncate mr-3">
+        <h3 className="font-medium text-gray-900 truncate">{name}</h3>
+        {location && (
+          <p className="text-xs text-gray-500 truncate">{location}</p>
+        )}
+      </div>
+      
+      <div className="flex-shrink-0">
+        {score !== null ? (
+          <div className={`${getScoreColor(score)} w-10 h-10 rounded-full flex items-center justify-center text-base font-bold`}>
+            {score}
+          </div>
+        ) : (
+          <div className="bg-gray-200 w-10 h-10 rounded-full flex items-center justify-center text-xs text-gray-500 font-medium">
+            N/A
+          </div>
+        )}
+      </div>
+    </div>
+  </Card>
+);
 }

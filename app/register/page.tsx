@@ -1,9 +1,9 @@
-// app/register/page.tsx
 'use client';
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import Image from 'next/image';
 
 export default function RegisterPage() {
   const [username, setUsername] = useState('');
@@ -18,7 +18,7 @@ export default function RegisterPage() {
     setError('');
 
     try {
-      const response = await fetch('/api/register', { // Memanggil API registrasi kustom Anda
+      const response = await fetch('/api/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -29,13 +29,13 @@ export default function RegisterPage() {
       const data = await response.json();
 
       if (response.ok) {
-        alert('Registrasi berhasil! Silakan login.');
-        router.push('/signin'); // Redirect ke halaman login
+        alert('Registration successful! Please login.');
+        router.push('/signin');
       } else {
-        setError(data.message || 'Registrasi gagal. Silakan coba lagi.');
+        setError(data.message || 'Registration failed. Please try again.');
       }
     } catch (err) {
-      setError('Terjadi kesalahan jaringan atau server.');
+      setError('Network or server error occurred.');
       console.error('Registration error:', err);
     }
   };
@@ -44,11 +44,16 @@ export default function RegisterPage() {
     <div className="flex min-h-screen">
       {/* Left side - Register form */}
       <div className="bg-white p-8 sm:p-10 w-full max-w-md flex flex-col justify-center">
-        {/* Logo/Icon */}
+        {/* Logo */}
         <div className="flex justify-center mb-6">
-          <div className="w-12 h-12 bg-gradient-to-br from-emerald-400 to-emerald-600 rounded-xl flex items-center justify-center">
-            <div className="w-6 h-6 bg-white/30 rounded-md"></div>
-          </div>
+          <Image
+            src="/Logo.png"
+            alt="Healthify Logo"
+            width={120}
+            height={120}
+            className="object-contain"
+            priority
+          />
         </div>
 
         <h1 className="text-2xl font-bold text-center mb-8 text-gray-900">
@@ -157,8 +162,20 @@ export default function RegisterPage() {
       </div>
 
       {/* Right side - Background/Image area */}
-      <div className="flex-1 bg-gradient-to-br from-emerald-100 to-cyan-100 hidden md:block">
-        {/* You can add background image or pattern here */}
+      <div className="flex-1 bg-gradient-to-br from-emerald-100 to-cyan-100 hidden md:block relative">
+        <div className="absolute inset-0 flex items-center justify-center">
+          <div className="text-center">
+            <Image
+              src="/Logo.png"
+              alt="Healthify Logo"
+              width={200}
+              height={200}
+              className="object-contain opacity-20 mx-auto mb-4"
+            />
+            <h2 className="text-3xl font-bold text-emerald-700 mb-2">Healthify</h2>
+            <p className="text-emerald-600 text-lg">Healthcare Management System</p>
+          </div>
+        </div>
       </div>
     </div>
   );

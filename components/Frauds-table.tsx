@@ -1,22 +1,44 @@
+import { useEffect, useState } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Button } from "@/components/ui/button"
-import { ChevronLeft, ChevronRight, MoreHorizontal, CalendarDays } from "lucide-react"
+import { ChevronLeft, ChevronRight, MoreHorizontal } from "lucide-react"
 
-const fraudData = [
-  { hospitalId: "#876364", hospitalName: "Siloam", procedureCode: "1", totalAmount: "$1,46,990" },
-  { hospitalId: "#876368", hospitalName: "Medistra", procedureCode: "2", totalAmount: "$46,990" },
-  { hospitalId: "#876412", hospitalName: "Mayapada", procedureCode: "3", totalAmount: "$3,46,676" },
-  { hospitalId: "#876621", hospitalName: "RS Pondok Indah", procedureCode: "4", totalAmount: "$2,46,981" },
-  { hospitalId: "#876789", hospitalName: "RS Cipto Mangunkusumo", procedureCode: "5", totalAmount: "$1,88,500" },
-  { hospitalId: "#876364", hospitalName: "Siloam", procedureCode: "1", totalAmount: "$1,46,990" },
-  { hospitalId: "#876368", hospitalName: "Medistra", procedureCode: "2", totalAmount: "$46,990" },
-  { hospitalId: "#876412", hospitalName: "Mayapada", procedureCode: "3", totalAmount: "$3,46,676" },
-  { hospitalId: "#876621", hospitalName: "RS Pondok Indah", procedureCode: "4", totalAmount: "$2,46,981" },
-  { hospitalId: "#876789", hospitalName: "RS Cipto Mangunkusumo", procedureCode: "5", totalAmount: "$1,88,500" },
-]
+type FraudData = {
+  hospitalId: string
+  hospitalName: string
+  procedureCode: string
+  totalAmount: string
+}
 
 export default function FraudsTable() {
+  const [fraudData, setFraudData] = useState<FraudData[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+
+  useEffect(() => {
+    async function fetchFraudData() {
+      try {
+        setLoading(true)
+        const response = await fetch("/api/fraudHome")
+        
+        if (!response.ok) {
+          throw new Error(`Error ${response.status}: ${response.statusText}`)
+        }
+        
+        const data = await response.json()
+        setFraudData(data)
+      } catch (err) {
+        console.error("Failed to fetch fraud data:", err)
+        setError("Could not load fraud data")
+      } finally {
+        setLoading(false)
+      }
+    }
+    
+    fetchFraudData()
+  }, [])
+
   return (
     <Card className="w-[845px] h-[300px] shadow-lg rounded-xl flex flex-col">
       <CardHeader className="flex flex-row items-center justify-between pb-3">
@@ -34,27 +56,45 @@ export default function FraudsTable() {
           </Button>
         </div>
       </CardHeader>
-      <CardContent className="flex-grow overflow-y-auto"> {/* Added flex-grow and overflow-y-auto */}
-        <Table>
-          <TableHeader className="sticky top-0 bg-white z-10"> {/* Added sticky and bg-white */}
-            <TableRow className="border-b-gray-200">
-              <TableHead className="text-gray-600 font-medium">Hospital Id</TableHead>
-              <TableHead className="text-gray-600 font-medium">Hospital Name</TableHead>
-              <TableHead className="text-gray-600 font-medium">Procedure Code</TableHead>
-              <TableHead className="text-right text-gray-600 font-medium">Total Amount</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {fraudData.map((fraud) => (
-              <TableRow key={fraud.hospitalId} className="border-b-gray-100 hover:bg-gray-50">
-                <TableCell className="text-gray-700 py-3">{fraud.hospitalId}</TableCell>
-                <TableCell className="text-gray-700 py-3">{fraud.hospitalName}</TableCell>
-                <TableCell className="text-gray-700 py-3">{fraud.procedureCode}</TableCell>
-                <TableCell className="text-right text-gray-700 py-3">{fraud.totalAmount}</TableCell>
+      <CardContent className="flex-grow overflow-y-auto">
+        {loading ? (
+          <div className="flex justify-center items-center h-full">
+            <p className="text-gray-500">Loading fraud data...</p>
+          </div>
+        ) : error ? (
+          <div className="flex justify-center items-center h-full">
+            <p className="text-red-500">{error}</p>
+          </div>
+        ) : (
+          <Table>
+            <TableHeader className="sticky top-0 bg-white z-10">
+              <TableRow className="border-b-gray-200">
+                <TableHead className="text-gray-600 font-medium">Hospital ID</TableHead>
+                <TableHead className="text-gray-600 font-medium">Hospital Name</TableHead>
+                <TableHead className="text-gray-600 font-medium">Procedure Code</TableHead>
+                <TableHead className="text-right text-gray-600 font-medium">Total Amount</TableHead>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+            </TableHeader>
+            <TableBody>
+              {fraudData.length === 0 ? (
+                <TableRow>
+                  <TableCell colSpan={4} className="text-center py-4 text-gray-500">
+                    No fraud data available
+                  </TableCell>
+                </TableRow>
+              ) : (
+                fraudData.map((fraud, index) => (
+                  <TableRow key={`${fraud.hospitalId}-${fraud.procedureCode}-${index}`} className="border-b-gray-100 hover:bg-gray-50">
+                    <TableCell className="text-gray-700 py-3">{fraud.hospitalId}</TableCell>
+                    <TableCell className="text-gray-700 py-3">{fraud.hospitalName}</TableCell>
+                    <TableCell className="text-gray-700 py-3">{fraud.procedureCode}</TableCell>
+                    <TableCell className="text-right text-gray-700 py-3">{fraud.totalAmount}</TableCell>
+                  </TableRow>
+                ))
+              )}
+            </TableBody>
+          </Table>
+        )}
       </CardContent>
     </Card>
   )

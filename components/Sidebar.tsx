@@ -1,6 +1,6 @@
 "use client"
 
-import { Home, Stethoscope, Settings, LifeBuoy, LayoutDashboard, BarChart2, Flame} from "lucide-react"
+import { Home, Stethoscope, LayoutDashboard, BarChart2, Flame, Newspaper} from "lucide-react"
 import { cn } from "@/lib/utils"
 import Link from "next/link"
 import {useSession} from "next-auth/react"
@@ -12,10 +12,12 @@ const navigationConfig = {
     { icon: Stethoscope, label: "Doctor Analytics", href: "/governance/doctor" },
     { icon: LayoutDashboard, label: "Facility Analytics", href: "/governance/facility"},
     { icon: Flame, label: "Burn Out Anaytics", href: "/governance/burnout"},
+    { icon: Newspaper, label: "Form", href: "/governance/form" },
   ],
   "Insurance": [ // Insurance
     { icon: Home, label: "Home", href: "/insurance" },
     { icon: BarChart2, label: "Analytics", href: "/insurance/fraud" },
+    { icon: Newspaper, label: "Form", href: "/insurance/form" },
   ]
 }
 

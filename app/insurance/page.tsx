@@ -7,6 +7,7 @@ import FraudClaimsChart from "@/components/Fraud-claims-chart"
 import AnalyticsDonutChart from "@/components/Analytics-donut-chart"
 import FraudsTable from "@/components/Frauds-table"
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"
+import { useState, useEffect } from 'react';
 import { useSession } from "next-auth/react"
 
 type Claim = {
@@ -14,7 +15,7 @@ type Claim = {
   user: string;
   value: string;
   description: string;
-  status: "Accepted" | "Flagged" | "On Going" | "On Hold";
+  status: string;
 };
 
 const sampleClaims: Claim[] = [
@@ -26,6 +27,41 @@ const sampleClaims: Claim[] = [
 
 
 export default function AnalyticsDashboardPage() {
+  const [claims, setClaims] = useState<Claim[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [searchTerm, setSearchTerm] = useState("");
+
+  useEffect(() => {
+    async function fetchClaims() {
+      try {
+        setLoading(true);
+        const response = await fetch("/api/claims");
+
+        if (!response.ok) {
+          throw new Error(`Error ${response.status}: ${response.statusText}`);
+        }
+
+        const data = await response.json();
+        setClaims(data);
+      } catch (err) {
+        console.error("Failed to fetch claims:", err);
+        setError("Failed to load claims. Please try again later.");
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchClaims();
+  }, []);
+
+  const filteredClaims = claims.filter(
+    (claim) =>
+      claim.user.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      claim.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      claim.id.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
 
 const userSession = useSession();
 console.log("User Session:", userSession.data?.user || "No user session found");
@@ -33,7 +69,7 @@ console.log("User Session:", userSession.data?.user || "No user session found");
     <div className="flex h-screen bg-[#E6F7F6] px-4 font-sans">
       <Sidebar />
       <div className="flex-1 flex flex-col overflow-hidden">
-        <Header title=""/>
+        <Header title="Healthify Claims"/>
         <ScrollArea className="flex-1">
           <main className="p-6 md:p-8 space-y-6">
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -55,7 +91,7 @@ console.log("User Session:", userSession.data?.user || "No user session found");
                       <ClaimCard key={claim.id} claim={claim} />
                     ),
                   )}
-                </div>
+                </div>  
               </div>
             </div>
           </main>
@@ -63,5 +99,5 @@ console.log("User Session:", userSession.data?.user || "No user session found");
         </ScrollArea>
       </div>
     </div>
-  )
+  );
 }
