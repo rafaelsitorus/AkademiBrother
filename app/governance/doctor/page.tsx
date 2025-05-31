@@ -1,15 +1,15 @@
+import DoctorCard from "@/components/Doctor-card"
 import Sidebar from "@/components/Sidebar"
 import Header from "@/components/Header"
-import InfoCardPlaceholder from "@/components/Info-card-placeholder"
 import { Search } from "lucide-react"
 import { Input } from "@/components/ui/input"
 
-const dummyDoctors = [
-  { id: "1", name: "Doctor A", specialty: "Cardiology", status: "bad" },
-  { id: "2", name: "Doctor B", specialty: "Pediatrics", status: "bad" },
-  { id: "3", name: "Doctor C", specialty: "Neurology", status: "bad" },
-  { id: "4", name: "Doctor D", specialty: "Orthopedics", status: "good" },
-  { id: "5", name: "Doctor E", specialty: "Surgery", status: "bad" },
+const doctors = [
+  { id: "1", name: "Doctor A", status: "Flagged" },
+  { id: "2", name: "Doctor B", status: "Flagged" },
+  { id: "3", name: "Doctor C", status: "Flagged" },
+  { id: "4", name: "Doctor D", status: "Clear" },
+  { id: "5", name: "Doctor E", status: "Flagged" },
 ]
 
 export default function DashboardMainContent() {
@@ -27,15 +27,10 @@ export default function DashboardMainContent() {
             />
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-6 w-6 text-teal-600" />
           </div>
-          <div className="mt-8">
-            <InfoCardPlaceholder
-              title="Burn Out Rate"
-              items={dummyDoctors.map((doc) => ({ 
-                primary: doc.name, 
-                secondary: doc.specialty,
-                status: doc.status as 'good' | 'bad'
-              }))}
-            />
+          <div className="mt-8 space-y-4">
+            {doctors.map((doctor) => (
+              <DoctorCard key={doctor.id} name={doctor.name} status={doctor.status} />
+            ))}
           </div>
         </main>
       </div>

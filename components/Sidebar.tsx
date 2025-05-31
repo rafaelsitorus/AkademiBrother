@@ -1,34 +1,44 @@
-// components/Sidebar.tsx
-
 "use client"
 
-import { Home, BarChart2, Settings, LifeBuoy, Scroll } from "lucide-react"
-// import { useState } from "react" // Tidak diperlukan lagi
+import { Home, Stethoscope, Settings, LifeBuoy, LayoutDashboard, BarChart2, Flame, Newspaper} from "lucide-react"
 import { cn } from "@/lib/utils"
 import Link from "next/link"
-// import { usePathname } from 'next/navigation'; // Tidak diperlukan lagi
+import {useSession} from "next-auth/react"
 
-const navItems = [
-  { icon: Home, label: "Home", href: "/insurance" },
-  { icon: BarChart2, label: "Analytics", href: "/insurance/fraud" },
-  { icon: Scroll, label: "Form", href: "/insurance/form" },
-]
+// Define navigation items for each role
+const navigationConfig = {
+  "Governance": [ // Governance
+    { icon: Home, label: "Home", href: "/governance" },
+    { icon: Stethoscope, label: "Doctor Analytics", href: "/governance/doctor" },
+    { icon: LayoutDashboard, label: "Facility Analytics", href: "/governance/facility"},
+    { icon: Flame, label: "Burn Out Anaytics", href: "/governance/burnout"},
+    { icon: Newspaper, label: "Form", href: "/governance/form" },
+  ],
+  "Insurance": [ // Insurance
+    { icon: Home, label: "Home", href: "/insurance" },
+    { icon: BarChart2, label: "Analytics", href: "/insurance/fraud" },
+    { icon: Newspaper, label: "Form", href: "/insurance/form" },
+  ]
+}
 
 export default function Sidebar() {
-  // Anda bisa menghapus useState atau usePathname jika tidak ada bagian lain dari komponen
-  // yang bergantung pada status aktifnya.
-  // Jika Anda hanya ingin memastikan tidak ada tombol yang aktif secara default,
-  // cukup hapus kondisi dari className.
+
+  const {data:session} = useSession();
+  // Get role ID with fallback to insurance (3)
+  const roleName = session?.user.roleName
+
+  // Get navigation items based on role ID
+  const navItems = navigationConfig[roleName as keyof typeof navigationConfig]
 
   return (
     <aside className="
       w-16 bg-[#00A79D] text-white flex flex-col items-center py-6 space-y-10 rounded-3xl shadow-lg
-      h-[500px]
+      h-[775px]
       my-auto
       overflow-y-auto
     ">
       <div className="flex flex-col items-center space-y-8 flex-1">
-        {navItems.map((item) => (
+        {navItems?.map((item) => (
           <Link
             key={item.label}
             href={item.href}
