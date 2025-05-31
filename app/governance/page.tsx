@@ -12,9 +12,15 @@ const dummyDoctors: { id: string; name: string; specialty: string; status: 'good
   { id: "doc1", name: "Dr. Amelia Hasan", specialty: "Cardiology", status: 'good' },
   { id: "doc2", name: "Dr. Budi Santoso", specialty: "Pediatrics", status: 'bad' },
   { id: "doc3", name: "Dr. Citra Dewi", specialty: "Neurology", status: 'good' },
+  { id: "doc1", name: "Dr. Amelia Hasan", specialty: "Cardiology", status: 'good' },
+  { id: "doc2", name: "Dr. Budi Santoso", specialty: "Pediatrics", status: 'bad' },
+  { id: "doc3", name: "Dr. Citra Dewi", specialty: "Neurology", status: 'good' },
 ]
 
 const dummyFacilities: Array<{ id: string; name: string; type: string; status: 'good' | 'bad' }> = [
+  { id: "fac1", name: "RS Harapan Kita", type: "General Hospital", status: 'good' },
+  { id: "fac2", name: "Klinik Sehat Selalu", type: "Clinic", status: 'bad' },
+  { id: "fac3", name: "Lab Medika Utama", type: "Laboratory", status: 'good' },
   { id: "fac1", name: "RS Harapan Kita", type: "General Hospital", status: 'good' },
   { id: "fac2", name: "Klinik Sehat Selalu", type: "Clinic", status: 'bad' },
   { id: "fac3", name: "Lab Medika Utama", type: "Laboratory", status: 'good' },

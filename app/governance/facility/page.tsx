@@ -78,7 +78,7 @@ export default function FacilityDashboard() {
     <div className="flex h-screen bg-[#E0F2F1] font-sans">
       <Sidebar />
       <div className="flex-1 flex flex-col overflow-hidden">
-        <Header title="Hospital Facilities" />
+        <Header title="Healthify Governance" />
         <div className="p-4">
           {/* Search bar */}
           <div className="relative w-full max-w-md mx-auto mb-4">

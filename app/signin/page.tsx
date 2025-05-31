@@ -1,10 +1,10 @@
-// app/signin/page.tsx
 "use client";
 
 import { useState } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 
 export default function SignInPage() {
   const [identifier, setIdentifier] = useState(""); // Untuk username atau email
@@ -33,16 +33,30 @@ export default function SignInPage() {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-teal-100 to-cyan-100">
-      <div className="bg-white p-8 sm:p-10 rounded-xl shadow-2xl w-full max-w-md">
-        <h1 className="text-3xl font-bold text-center mb-8 text-gray-800">
+    <div className="flex min-h-screen">
+      {/* Left side - Sign in form */}
+      <div className="bg-white p-8 sm:p-10 w-full max-w-md flex flex-col justify-center">
+        {/* Logo */}
+        <div className="flex justify-center mb-6">
+          <Image
+            src="/logo.png"
+            alt="Healthify Logo"
+            width={120}
+            height={120}
+            className="object-contain"
+            priority
+          />
+        </div>
+
+        <h1 className="text-2xl font-bold text-center mb-8 text-gray-900">
           Log in
         </h1>
-        <form onSubmit={handleSubmit} className="space-y-6">
+
+        <form onSubmit={handleSubmit} className="space-y-5">
           <div>
             <label
               htmlFor="identifier"
-              className="block text-sm font-medium text-gray-700 mb-1"
+              className="block text-sm font-medium text-gray-700 mb-2"
             >
               Email Address
             </label>
@@ -50,16 +64,17 @@ export default function SignInPage() {
               type="email"
               id="identifier"
               placeholder="example@gmail.com"
-              className="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 sm:text-sm"
+              className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent text-sm"
               value={identifier}
               onChange={(e) => setIdentifier(e.target.value)}
               required
             />
           </div>
+
           <div>
             <label
               htmlFor="password"
-              className="block text-sm font-medium text-gray-700 mb-1"
+              className="block text-sm font-medium text-gray-700 mb-2"
             >
               Password
             </label>
@@ -68,7 +83,7 @@ export default function SignInPage() {
                 type="password"
                 id="password"
                 placeholder="••••••••"
-                className="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 sm:text-sm"
+                className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent text-sm"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
@@ -84,7 +99,7 @@ export default function SignInPage() {
                 type="checkbox"
                 checked={rememberMe}
                 onChange={(e) => setRememberMe(e.target.checked)}
-                className="h-4 w-4 text-teal-600 focus:ring-teal-500 border-gray-300 rounded"
+                className="h-4 w-4 text-emerald-600 focus:ring-emerald-500 border-gray-300 rounded"
               />
               <label
                 htmlFor="remember-me"
@@ -96,7 +111,7 @@ export default function SignInPage() {
             <div className="text-sm">
               <Link
                 href="/reset-password"
-                className="font-medium text-teal-600 hover:text-teal-500"
+                className="font-medium text-emerald-600 hover:text-emerald-500"
               >
                 Reset Password?
               </Link>
@@ -104,14 +119,14 @@ export default function SignInPage() {
           </div>
 
           {error && (
-            <p className="text-red-600 text-sm text-center bg-red-100 p-3 rounded-md">
+            <p className="text-red-600 text-sm text-center bg-red-50 p-3 rounded-xl">
               {error}
             </p>
           )}
 
           <button
             type="submit"
-            className="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-semibold text-white bg-teal-600 hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 transition duration-150 ease-in-out"
+            className="w-full py-3 px-4 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold rounded-xl transition duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2"
           >
             Sign In
           </button>
@@ -121,11 +136,28 @@ export default function SignInPage() {
           Don&apos;t have an account yet?{" "}
           <Link
             href="/register"
-            className="font-medium text-teal-600 hover:text-teal-500"
+            className="font-medium text-emerald-600 hover:text-emerald-500"
           >
             Register
           </Link>
         </p>
+      </div>
+
+      {/* Right side - Background/Image area */}
+      <div className="flex-1 bg-gradient-to-br from-emerald-100 to-cyan-100 hidden md:block relative">
+        <div className="absolute inset-0 flex items-center justify-center">
+          <div className="text-center">
+            <Image
+              src="/logo.png"
+              alt="Healthify Logo"
+              width={200}
+              height={200}
+              className="object-contain opacity-20 mx-auto mb-4"
+            />
+            <h2 className="text-3xl font-bold text-emerald-700 mb-2">Healthify</h2>
+            <p className="text-emerald-600 text-lg">Healthcare Management System</p>
+          </div>
+        </div>
       </div>
     </div>
   );

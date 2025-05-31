@@ -69,7 +69,7 @@ console.log("User Session:", userSession.data?.user || "No user session found");
     <div className="flex h-screen bg-[#E6F7F6] px-4 font-sans">
       <Sidebar />
       <div className="flex-1 flex flex-col overflow-hidden">
-        <Header title=""/>
+        <Header title="Healthify Claims"/>
         <ScrollArea className="flex-1">
           <main className="p-6 md:p-8 space-y-6">
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">

@@ -103,7 +103,7 @@ export default function Page() {
     <div className="flex h-screen bg-[#E6F7F6] font-sans px-20 ml-[-4rem]">
       <Sidebar />
       <div className="flex-1 flex flex-col overflow-hidden">
-        <Header />
+        <Header title="Healthify Claims"/>
         <main className="flex-1 flex flex-col p-6 md:p-8 space-y-6 md:space-y-8 max-w-[900px] mx-auto w-full">
           <form
             className="space-y-4 bg-white p-6 rounded-lg shadow-md"
