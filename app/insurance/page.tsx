@@ -1,11 +1,13 @@
-"use client";
+'use client';
 
-import { useEffect, useState } from "react";
-import Sidebar from "../../components/Sidebar";
-import Header from "../../components/Header";
-import ClaimCard from "../../components/ClaimCard";
-import { Input } from "@/components/ui/input";
-import { Search } from "lucide-react";
+import Sidebar from "@/components/Sidebar"
+import Header from "@/components/Header"
+import ClaimCard from "@/components/ClaimCard"
+import FraudClaimsChart from "@/components/Fraud-claims-chart"
+import AnalyticsDonutChart from "@/components/Analytics-donut-chart"
+import FraudsTable from "@/components/Frauds-table"
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"
+import { useState, useEffect } from 'react';
 
 type Claim = {
   id: string;
@@ -15,7 +17,14 @@ type Claim = {
   status: string;
 };
 
-export default function HealthifyClaimsPage() {
+const sampleClaims: Claim[] = [
+  { id: "HC101", user: "User A", value: "$250", description: "Claim details A", status: "Accepted" },
+  { id: "HC102", user: "User B", value: "$450", description: "Claim details B", status: "Accepted" },
+  { id: "HC103", user: "User C", value: "$1200", description: "Claim details C", status: "Flagged" },
+  { id: "HC104", user: "User D", value: "$800", description: "Claim details D", status: "Flagged" },
+]
+
+export default function AnalyticsDashboardPage() {
   const [claims, setClaims] = useState<Claim[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -52,40 +61,37 @@ export default function HealthifyClaimsPage() {
   );
 
   return (
-    <div className="flex h-screen bg-[#E6F7F6] font-sans px-20 ml-[-4rem]">
+    <div className="flex h-screen bg-[#E6F7F6] px-4 font-sans">
       <Sidebar />
       <div className="flex-1 flex flex-col overflow-hidden">
         <Header />
-        <div className="relative w-full max-w-2xl mx-auto">
-          <Input
-            type="search"
-            placeholder="Search"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full h-14 pl-12 pr-4 rounded-full bg-gray-200 text-teal-700 placeholder-teal-600 text-lg border-none focus-visible:ring-2 focus-visible:ring-teal-500"
-          />
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-6 w-6 text-teal-600" />
-        </div>
-        <main className="flex-1 flex flex-col p-6 md:p-8 space-y-6 md:space-y-8 max-w-[900px] mx-auto w-full">
-          {loading && (
-            <div className="text-center text-teal-700">Loading claims...</div>
-          )}
-          {error && <div className="text-center text-red-500">{error}</div>}
+        <ScrollArea className="flex-1">
+          <main className="p-6 md:p-8 space-y-6">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              {/* Main content area spanning 2 columns */}
+              <div className="lg:col-span-2 space-y-6">
+                <FraudClaimsChart />
+                <FraudsTable />
+              </div>
 
-          {!loading && !error && (
-            <div className="h-[600px] overflow-y-auto pr-2">
-              {filteredClaims.length === 0 ? (
-                <div className="text-center text-teal-700">No claims found</div>
-              ) : (
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {filteredClaims.map((claim) => (
-                    <ClaimCard key={claim.id} claim={claim} />
-                  ))}
-                </div>
-              )}
+              {/* Right sidebar area for Analytics and Claim Cards */}
+              <div className="lg:col-span-1 space-y-6">
+                <AnalyticsDonutChart />
+                <div className="space-y-4">
+                  <h3 className="text-lg font-semibold text-gray-700">Recent Claims</h3>
+                  {sampleClaims.slice(0, 2).map(
+                    (
+                      claim, // Displaying only 2 cards as per image
+                    ) => (
+                      <ClaimCard key={claim.id} claim={claim} />
+                    ),
+                  )}
+                </div>  
+              </div>
             </div>
-          )}
-        </main>
+          </main>
+          <ScrollBar orientation="vertical" className="bg-teal-500 opacity-70 w-2.5 rounded-full" />
+        </ScrollArea>
       </div>
     </div>
   );

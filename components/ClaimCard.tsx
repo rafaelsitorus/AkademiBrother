@@ -51,7 +51,7 @@ export default function ClaimCard({ claim }: ClaimCardProps) {
           <span className="font-small text-gray-700">Value:</span> {claim.value}
         </p>
         <p>
-          <span className="font-small text-gray-700">Description:</span>
+          <span className="font-small text-gray-700">Procedure:</span>
         </p>
         <CardDescription className="text-xs text-gray-500 leading-relaxed h-12 overflow-hidden text-ellipsis">
           {claim.description}
