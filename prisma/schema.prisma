@@ -44,7 +44,7 @@ model HealthcareFacility {
 model Hospital {
   HospitalID        Int                     @id @default(autoincrement())
   HospitalName      String
-  FacilityNeedsScore Int
+  FacilityNeedsScore Int?
   LocationID        Int
   Location          Location               @relation(fields: [LocationID], references: [LocationID])
 

@@ -14,8 +14,8 @@ export default function Page() {
     previousClaims: "",
     daysSinceLastClaim: "",
     patientId: "",
-    profId: "",  
-    hospitalId: "", 
+    profId: "",
+    hospitalId: "",
   });
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -40,7 +40,9 @@ export default function Page() {
 
       if (!fraudResponse.ok) {
         const errorText = await fraudResponse.text();
-        throw new Error(`Fraud prediction failed: ${fraudResponse.status} ${errorText}`);
+        throw new Error(
+          `Fraud prediction failed: ${fraudResponse.status} ${errorText}`
+        );
       }
 
       const fraudResult = await fraudResponse.json();
@@ -66,7 +68,9 @@ export default function Page() {
 
       if (!saveClaimResponse.ok) {
         const errorText = await saveClaimResponse.text();
-        throw new Error(`Failed to save claim: ${saveClaimResponse.status} ${errorText}`);
+        throw new Error(
+          `Failed to save claim: ${saveClaimResponse.status} ${errorText}`
+        );
       }
 
       const savedClaimResult = await saveClaimResponse.json();
@@ -76,9 +80,15 @@ export default function Page() {
       // setFormData({ patientAge: "", claimAmount: "", ...etc. });
     } catch (error) {
       console.error("Submission error:", error);
-      setSubmissionStatus(error instanceof Error ? error.message : "An unknown error occurred.");
+      setSubmissionStatus(
+        error instanceof Error ? error.message : "An unknown error occurred."
+      );
       // Keep fraud result if it was set before saving failed
-      if (!result && error instanceof Error && error.message.startsWith("Fraud prediction failed")) {
+      if (
+        !result &&
+        error instanceof Error &&
+        error.message.startsWith("Fraud prediction failed")
+      ) {
         setResult("Error in fraud prediction.");
       }
     }
@@ -95,24 +105,15 @@ export default function Page() {
       <div className="flex-1 flex flex-col overflow-hidden">
         <Header />
         <main className="flex-1 flex flex-col p-6 md:p-8 space-y-6 md:space-y-8 max-w-[900px] mx-auto w-full">
-          <form className="space-y-4 bg-white p-6 rounded-lg shadow-md" onSubmit={handleSubmit}>
-            {/* Existing fields */}
+          <form
+            className="space-y-4 bg-white p-6 rounded-lg shadow-md"
+            onSubmit={handleSubmit}
+          >
             <div>
-              <label htmlFor="patientAge" className="block text-sm font-medium text-gray-700">
-                Patient Age
-              </label>
-              <input
-                type="number"
-                id="patientAge"
-                name="patientAge"
-                value={formData.patientAge}
-                onChange={handleChange}
-                className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                required
-              />
-            </div>
-            <div>
-              <label htmlFor="claimAmount" className="block text-sm font-medium text-gray-700">
+              <label
+                htmlFor="claimAmount"
+                className="block text-sm font-medium text-gray-700"
+              >
                 Claim Amount
               </label>
               <input
@@ -121,12 +122,15 @@ export default function Page() {
                 name="claimAmount"
                 value={formData.claimAmount}
                 onChange={handleChange}
-                className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                className="mt-1 px-2 block w-full h-8 border-2 border-black-100 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                 required
               />
             </div>
             <div>
-              <label htmlFor="procedureCode" className="block text-sm font-medium text-gray-700">
+              <label
+                htmlFor="procedureCode"
+                className="block text-sm font-medium text-gray-700"
+              >
                 Procedure Code
               </label>
               <input
@@ -135,12 +139,15 @@ export default function Page() {
                 name="procedureCode"
                 value={formData.procedureCode}
                 onChange={handleChange}
-                className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                className="mt-1 px-2 block w-full h-8 border-2 border-black-100 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                 required
               />
             </div>
             <div>
-              <label htmlFor="previousClaims" className="block text-sm font-medium text-gray-700">
+              <label
+                htmlFor="previousClaims"
+                className="block text-sm font-medium text-gray-700"
+              >
                 Number of Previous Claims
               </label>
               <input
@@ -149,12 +156,15 @@ export default function Page() {
                 name="previousClaims"
                 value={formData.previousClaims}
                 onChange={handleChange}
-                className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                className="mt-1 px-2 block w-full h-8 border-2 border-black-100 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                 required
               />
             </div>
             <div>
-              <label htmlFor="daysSinceLastClaim" className="block text-sm font-medium text-gray-700">
+              <label
+                htmlFor="daysSinceLastClaim"
+                className="block text-sm font-medium text-gray-700"
+              >
                 Days Since Last Claim
               </label>
               <input
@@ -163,14 +173,17 @@ export default function Page() {
                 name="daysSinceLastClaim"
                 value={formData.daysSinceLastClaim}
                 onChange={handleChange}
-                className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                className="mt-1 px-2 block w-full h-8 border-2 border-black-100 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                 required
               />
             </div>
 
-            {/* New Fields */}
+            {/* Add more Fields  (maybe)*/}
             <div>
-              <label htmlFor="patientId" className="block text-sm font-medium text-gray-700">
+              <label
+                htmlFor="patientId"
+                className="block text-sm font-medium text-gray-700"
+              >
                 Patient ID
               </label>
               <input
@@ -179,13 +192,32 @@ export default function Page() {
                 name="patientId"
                 value={formData.patientId}
                 onChange={handleChange}
-                className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                // Add 'required' if these IDs are mandatory
+                className="mt-1 px-2 block w-full h-8 border-2 border-black-100 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               />
             </div>
             <div>
-              <label htmlFor="profId" className="block text-sm font-medium text-gray-700">
-                Professional ID (ProfID)
+              <label
+                htmlFor="patientAge"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Patient Age
+              </label>
+              <input
+                type="number"
+                id="patientAge"
+                name="patientAge"
+                value={formData.patientAge}
+                onChange={handleChange}
+                className="mt-1 px-2 block w-full h-8 border-2 border-black-100 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                required
+              />
+            </div>
+            <div>
+              <label
+                htmlFor="profId"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Doctor ID
               </label>
               <input
                 type="number"
@@ -193,11 +225,14 @@ export default function Page() {
                 name="profId"
                 value={formData.profId}
                 onChange={handleChange}
-                className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                className="mt-1 px-2 block w-full h-8 border-2 border-black-100 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               />
             </div>
             <div>
-              <label htmlFor="hospitalId" className="block text-sm font-medium text-gray-700">
+              <label
+                htmlFor="hospitalId"
+                className="block text-sm font-medium text-gray-700"
+              >
                 Hospital ID
               </label>
               <input
@@ -206,19 +241,23 @@ export default function Page() {
                 name="hospitalId"
                 value={formData.hospitalId}
                 onChange={handleChange}
-                className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                className="mt-1 px-2 block w-full h-8 border-2 border-black-100 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               />
             </div>
 
             <button
               type="submit"
-              className="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+              className="w-full bg-green-800 text-white py-2 px-4 rounded-md hover:bg-green-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
             >
               Submit Claim
             </button>
           </form>
-          {result && <p className="mt-4 text-lg font-semibold">{`Fraud Prediction: ${result}`}</p>}
-          {submissionStatus && <p className="mt-2 text-md">{submissionStatus}</p>}
+          {result && (
+            <p className="mt-4 text-lg font-semibold">{`Fraud Prediction: ${result}`}</p>
+          )}
+          {submissionStatus && (
+            <p className="mt-2 text-md">{submissionStatus}</p>
+          )}
         </main>
       </div>
     </div>
