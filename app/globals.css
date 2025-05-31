@@ -1,2 +1,17 @@
-/* app/globals.css */
-/* Hapus semua konten yang ada, mulai dari awal */
+@import "tailwindcss";
+
+:root {
+  --background: #E6F6F4;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Inter, sans-serif;
+}
