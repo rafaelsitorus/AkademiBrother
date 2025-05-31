@@ -35,7 +35,6 @@ export default function HomePage() {
     );
   }
 
-  // Tampilkan konten halaman jika pengguna sudah terautentikasi
   return (
     <div className="min-h-screen bg-gray-100">
       <AppHeader /> {/* Header akan menampilkan tautan Logout di sini */}

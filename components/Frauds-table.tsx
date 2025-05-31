@@ -2,7 +2,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Button } from "@/components/ui/button"
 import { ChevronLeft, ChevronRight, MoreHorizontal, CalendarDays } from "lucide-react"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 
 const fraudData = [
   { hospitalId: "#876364", hospitalName: "Siloam", procedureCode: "1", totalAmount: "$1,46,990" },
@@ -26,19 +25,6 @@ export default function FraudsTable() {
           <Button variant="ghost" size="icon" className="text-gray-500 hover:text-gray-700">
             <ChevronLeft className="h-5 w-5" />
           </Button>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="outline" className="text-sm text-gray-700">
-                <CalendarDays className="mr-2 h-4 w-4 opacity-70" />
-                Jun 2022
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuItem>May 2022</DropdownMenuItem>
-              <DropdownMenuItem>Jun 2022</DropdownMenuItem>
-              <DropdownMenuItem>Jul 2022</DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
           <Button variant="ghost" size="icon" className="text-gray-500 hover:text-gray-700">
             <ChevronRight className="h-5 w-5" />
           </Button>
